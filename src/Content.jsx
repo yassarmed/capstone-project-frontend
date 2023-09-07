@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import {MoviesIndex} from "./MoviesIndex"
 import { Modal } from "./Modal";
 import { MoviesShow } from "./MoviesShow";
+import {Signup} from "./Signup"
+import { Login } from "./Login";
+import { LogoutLink } from "./LogoutLink"
 export function Content() {
-  
-  // const movies = [
-  //   {id: 1, name: "NightCrawler", image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbW4BQAc3CFRi0d0FNLDLQ5decqoImWo2keQ&usqp=CAU", description: "Cool movie!", category: "Thriller"  },
-  // ];
 
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  
   
   const handleIndexMovies = () => {
     console.log("handleIndexMovies");
@@ -18,7 +19,7 @@ export function Content() {
       setMovies(response.data);
     });
   };
-  
+
   useEffect(handleIndexMovies, []);
   
       const [isMoviesShowVisible, setIsMoviesShowVisible] = useState(false);
@@ -35,16 +36,23 @@ export function Content() {
           setIsMoviesShowVisible(false);
         };
 
-        const handleDestroyMovie = (movie) => {
-               console.log("handleDestroyMovie", movie);
-               axios.delete(`http://localhost:3000/movies/${movies.id}.json`).then((response) => {
-                 setPhotos(movies.filter((p) => m.id !== movie.id));
-                 handleClose();
-               });
-             };
+        // const handleDestroyMovie = (movie) => {
+        //        console.log("handleDestroyMovie", movie);
+        //        axios.delete(`http://localhost:3000/movies/${movies.id}.json`).then((response) => {
+        //          setPhotos(movies.filter((p) => m.id !== movie.id));
+        //          handleClose();
+        //        });
+        //      };
+
+        const addToFavorites = (movie) => {
+          if (!favorites.some((favMovie) => favMovie.id === movie.id)) {
+            setFavorites([...favorites, movie]);
+          }
+        };
+        
         
 
-    
+     
     
 
 
@@ -55,10 +63,21 @@ export function Content() {
 
   return (
     <div>
-      <MoviesIndex movies={movies} onShowMovie={handleShowMovie}/>
+      <MoviesIndex movies={movies} onShowMovie={handleShowMovie} />
       <Modal show={isMoviesShowVisible} onClose={handleClose}>
-       <MoviesShow movie={currentMovie} onDestroyMovie={handleDestroyMovie} />
+       <MoviesShow movie={currentMovie} addToFavorites={addToFavorites} />
       </Modal>
+      <Login/>
+      <LogoutLink/>
+      <Signup/>
+      <div>
+  <h2>Favorite Movies</h2>
+  <ul>
+    {favorites.map((favorite) => (
+      <li key={favorite.id}>{favorite.title}</li>
+    ))}
+  </ul>
+</div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ export function MoviesIndex(props) {
            <img src={movie.image_url} width={150} />
            <p>{movie.name}</p>
            <button onClick={()=> props.onShowMovie(movie)}>More info</button>
+           
          </div>
        ))}
     </div>
