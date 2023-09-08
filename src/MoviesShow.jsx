@@ -1,12 +1,12 @@
 export function MoviesShow(props) {
-  const handleClick = () => {
-    props.onDestroyMovie(props.movie);
-  };
+  // const handleClick = () => {
+  //   props.onDestroyMovie(props.movie);
+  // };
 
+  
   const handleAddToFavorites = () => {
-    props.addToFavorites(props.movie);
+    props.addToFavs(props.movie);
   };
-
   return (
     <div>
       <h1>{props.movie.name}</h1>

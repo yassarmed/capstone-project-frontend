@@ -4,7 +4,37 @@ import { useState } from "react";
 const jwt = localStorage.getItem("jwt");
 if (jwt) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+  // After a successful login, store the JWT token
+  
 }
+
+function createFavorite(movieId) {
+  // Retrieve the JWT token from localStorage
+  const jwtToken = localStorage.getItem("jwtToken");
+
+  // Check if the token is available
+  if (jwtToken) {
+    // Make the Axios request with the token
+    axios.post("http://localhost:3000/favorites.json", { movie_id: movieId }, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+    .then((response) => {
+      // Handle the successful response here
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle any errors here, and log the error for debugging
+    });
+  } else {
+    // Handle the case where the token is not available
+    console.error("JWT token is not available");
+  }
+}
+
+
+
 
 export function Login() {
   const [errors, setErrors] = useState([]);
