@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import {MoviesIndex} from "./MoviesIndex"
 import { Modal } from "./Modal";
 import { MoviesShow } from "./MoviesShow";
@@ -7,14 +7,23 @@ import {Signup} from "./Signup"
 import { Login } from "./Login";
 import { LogoutLink } from "./LogoutLink"
 import { UserFavoritesIndex} from "./UserFavoritesIndex";
-export function Content() {
 
-  // const favs = [
-  //   {id: 1, user_id: 1, item_id: 1}
-  // ]
+export function Content() {
 
   const [movies, setMovies] = useState([]);
   const [favs, setFavs] = useState([]);
+  
+
+  const addToFavorites = (movieDetails) => {
+
+    axios.post("http://localhost:3000/favorites/add.json",  {item_id: movieDetails.id})
+      .then((response) => {
+      })
+      .catch((error) => {
+        console.log(error)
+
+      });
+  };
   
   
   const handleIndexMovies = () => {
@@ -49,41 +58,6 @@ export function Content() {
           console.log("handleClose");
           setIsMoviesShowVisible(false);
         };
-
-        // const handleDestroyMovie = (movie) => {
-        //        console.log("handleDestroyMovie", movie);
-        //        axios.delete(`http://localhost:3000/movies/${movies.id}.json`).then((response) => {
-        //          setPhotos(movies.filter((p) => m.id !== movie.id));
-        //          handleClose();
-        //        });
-        //      };
-
-        const addToFavs = (movie) => {
-          if (!favorites.some((favMovie) => favMovie.id === movie.id)) {
-            axios
-              .post(`http://localhost:3000/favorites.json`, { movie_id: movie.id },)
-              .then((response) => {
-                setFavorites([...favorites, movie]);
-              })
-              .catch((error) => {
-                console.error("Error adding movie to favorites:", error);
-              });
-          }
-        };
-
-        // const removeFromFavorites = (movie) => {
-        //   axios
-        //   .delete(`http://localhost:3000/favorites/${movie.id}`)
-        //   .then((response)=>{
-        //     const updatedFavorites = favorites.filter(
-        //       (favMovie) => favMovie.id !== movie.id
-        //     )
-        //     setFavorites(updatedFavorites)
-        //   })
-        //   .catch((error)=>{
-        //     console.error("Error removing movie from favorites:", error)
-        //   })
-        // }
         
         
 
@@ -98,7 +72,7 @@ export function Content() {
 
   return (
     <div>
-      <MoviesIndex movies={movies} onShowMovie={handleShowMovie} />
+      <MoviesIndex movies={movies} onShowMovie={handleShowMovie} onAddToFavorites={addToFavorites} />
       <Modal show={isMoviesShowVisible} onClose={handleClose}>
        <MoviesShow movie={currentMovie} />
       </Modal>
