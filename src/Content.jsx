@@ -1,31 +1,30 @@
 import axios from "axios";
 import { useState, useEffect, createContext } from "react";
-import {MoviesIndex} from "./MoviesIndex"
+import { MoviesIndex } from "./MoviesIndex";
 import { Modal } from "./Modal";
 import { MoviesShow } from "./MoviesShow";
-import {Signup} from "./Signup"
+import { Signup } from "./Signup";
 import { Login } from "./Login";
-import { LogoutLink } from "./LogoutLink"
-import { UserFavoritesIndex} from "./UserFavoritesIndex";
+import { LogoutLink } from "./LogoutLink";
+import { UserFavoritesIndex } from "./UserFavoritesIndex";
 
 export function Content() {
-
   const [movies, setMovies] = useState([]);
   const [favs, setFavs] = useState([]);
+  const [favoriteMovies,setFavoriteMovies] = useState([])
   
 
   const addToFavorites = (movieDetails) => {
-
-    axios.post("http://localhost:3000/favorites/add.json",  {item_id: movieDetails.id})
+    axios
+      .post("http://localhost:3000/favorites/add.json", { item_id: movieDetails.id })
       .then((response) => {
+        console.log(favs);
       })
       .catch((error) => {
-        console.log(error)
-
+        console.log(error);
       });
   };
-  
-  
+
   const handleIndexMovies = () => {
     console.log("handleIndexMovies");
     axios.get("http://localhost:3000/movies.json").then((response) => {
@@ -33,6 +32,7 @@ export function Content() {
       setMovies(response.data);
     });
   };
+
   const handleIndexUserFavorites = () => {
     console.log("handleIndexUserFavorites");
     axios.get("http://localhost:3000/favorites.json").then((response) => {
@@ -41,46 +41,59 @@ export function Content() {
     });
   };
 
-
   useEffect(handleIndexMovies, []);
   useEffect(handleIndexUserFavorites, []);
-  
-      const [isMoviesShowVisible, setIsMoviesShowVisible] = useState(false);
-      const [currentMovie, setCurrentMovie] = useState({});
 
-      const handleShowMovie = (movie) => {
-          console.log("handleShowMovie", movie);
-          setIsMoviesShowVisible(true);
-          setCurrentMovie(movie);
-        };
-        
-        const handleClose = () => {
-          console.log("handleClose");
-          setIsMoviesShowVisible(false);
-        };
-        
-        
+  const [isMoviesShowVisible, setIsMoviesShowVisible] = useState(false);
+  const [currentMovie, setCurrentMovie] = useState({});
 
-     
+  const handleShowMovie = (movie) => {
+    console.log("handleShowMovie", movie);
+    setIsMoviesShowVisible(true);
+    setCurrentMovie(movie);
+  };
+
+  const handleClose = () => {
+    console.log("handleClose");
+    setIsMoviesShowVisible(false);
+  };
+
+  const handleDestroyFavorite = (favoriteMovies) => {
+    console.log("Movie ID to delete:", favoriteMovies[0]['favorite_id']);
+    console.log("handleDestroyFavorite", favoriteMovies[0]);
+    axios.delete(`http://localhost:3000/favorites/${favoriteMovies[0]['favorite_id']}.json`).then((response) => {
+      setFavoriteMovies(favoriteMovies.filter((f) => f.id !== favoriteMovies.id));
+      handleClose();
+    });
+    }
     
-
-
-
-
-
+ 
+    
 
 
   return (
     <div>
-      <MoviesIndex movies={movies} onShowMovie={handleShowMovie} onAddToFavorites={addToFavorites} />
+      <MoviesIndex
+        movies={movies}
+        onShowMovie={handleShowMovie}
+        onAddToFavorites={addToFavorites}
+      />
       <Modal show={isMoviesShowVisible} onClose={handleClose}>
-       <MoviesShow movie={currentMovie} />
+        <MoviesShow movie={currentMovie} />
       </Modal>
-      <Login/>
-      <LogoutLink/>
-      <Signup/>
-      <UserFavoritesIndex favs={favs}/>
-      </div>
+      <Login />
+      <LogoutLink />
+      <Signup />
+      <UserFavoritesIndex
+  favs={favs}
+  setFavs={setFavs}
+  onDestroyFavorite={handleDestroyFavorite}
+  favoriteMovies={favoriteMovies}
 
-  )
+
+/>
+
+
+    </div>
+  );
 }
