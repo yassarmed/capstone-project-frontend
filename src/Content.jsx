@@ -58,21 +58,21 @@ export function Content() {
     setIsMoviesShowVisible(false);
   };
 
-  const handleDestroyFavorite = (favoriteMovies) => {
-    console.log("Movie ID to delete:", favoriteMovies[0]['favorite_id']);
-    console.log("handleDestroyFavorite", favoriteMovies[0]);
-    axios.delete(`http://localhost:3000/favorites/${favoriteMovies[0]['favorite_id']}.json`).then((response) => {
-      setFavoriteMovies(favoriteMovies.filter((f) => f.id !== favoriteMovies.id));
+  const handleDestroyFavorite = (favorite_id) => {
+    console.log("Favorite ID to delete:", favorite_id);
+    axios.delete(`http://localhost:3000/favorites/${favorite_id}.json`).then((response) => {
+      setFavoriteMovies(favoriteMovies.filter((f) => f.favorite_id !== favorite_id));
       handleClose();
     });
-    }
-    
+  };
+  
  
     
 
 
   return (
     <div>
+      
       <MoviesIndex
         movies={movies}
         onShowMovie={handleShowMovie}

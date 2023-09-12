@@ -4,8 +4,8 @@ import axios from "axios";
 export function UserFavoritesIndex(props) {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  const handleClick = () => {
-        props.onDestroyFavorite(favoriteMovies);
+  const handleClick = (favorite_id) => {
+        props.onDestroyFavorite(favorite_id);
       };
 
   useEffect(() => {
@@ -38,11 +38,13 @@ export function UserFavoritesIndex(props) {
 
   return (
     <div>
+      <div className="container"></div>
       <h1>Favorite Movies</h1>
       {favoriteMovies.map((movie) => (
         <div key={movie.id}>
           <img src={movie.image_url} width={150} alt={movie.name} />
-          <button onClick={handleClick}>Delete Favorite</button>
+          <button onClick={() => handleClick(movie.favorite_id)}>Delete Favorite</button>
+
         </div>
       ))}
     </div>
