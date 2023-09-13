@@ -64,7 +64,7 @@ export function Login() {
       <ul>
         {errors.map((error) => (
           <li key={error}>{error}</li>
-        ))}
+          ))}
       </ul>
       <form onSubmit={handleSubmit}>
         <div>
@@ -76,5 +76,6 @@ export function Login() {
         <button type="submit">Login</button>
       </form>
     </div>
+          
   );
 }
