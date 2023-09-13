@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 export function Header() {
   return (
     <header>
@@ -9,17 +10,32 @@ export function Header() {
     </button>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">Home</a>
+        <li className="nav-item" id="navbar">
+        <Link to="/">Home</Link>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Sign Up</a>
+      
+        <li className="nav-item" id="navbar">
+        <Link to="/Login">Login</Link>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Login</a>
+      
+        <li className="nav-item" id="navbar">
+        <Link to="/Logout">Logout</Link>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Movies</a>
+
+        <li className="nav-item" id="navbar">
+        <Link to="/signup">SignUp</Link>
+        </li>
+
+        <li className="nav-item" id="navbar">
+        <Link to="/movies">Movies</Link>
+        </li>
+
+        <li className="nav-item" id="navbar">
+        <Link to="/favorites">Favorites</Link>
+        </li>
+
+        <li className="nav-item" id="navbar">
+        <Link to="/about">About</Link>
         </li>
       </ul>
     </div>

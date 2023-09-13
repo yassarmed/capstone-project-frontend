@@ -1,3 +1,16 @@
+#root {
+  font-family: 'Fira Sans Condensed', sans-serif;
+  background-color: whitesmoke;
+  justify-content: center;
+  text-align: center;
+
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+#navbar {
+  margin: 5px;
+  margin-right: 5px;
 }

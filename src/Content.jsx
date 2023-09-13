@@ -7,6 +7,9 @@ import { Signup } from "./Signup";
 import { Login } from "./Login";
 import { LogoutLink } from "./LogoutLink";
 import { UserFavoritesIndex } from "./UserFavoritesIndex";
+import { Routes, Route } from "react-router-dom";
+import {Home} from "./Home"
+import { About } from "./About";
 
 export function Content() {
   const [movies, setMovies] = useState([]);
@@ -72,27 +75,40 @@ export function Content() {
 
   return (
     <div>
-      
-      <MoviesIndex
+<Routes>
+      <Route path="/about" element={<About />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<Home/>}/>
+      <Route path="/Login" element={<Login/>}/>
+      <Route path="/movies" element={<MoviesIndex movies={movies} onAddToFavorites={addToFavorites} onShowMovie={handleShowMovie}/>}/>
+      <Route path="/logout" element={<LogoutLink/>}/>
+      <Route path="/favorites" element={<UserFavoritesIndex favs={favs}
+  setFavs={setFavs}
+  onDestroyFavorite={handleDestroyFavorite}
+  favoriteMovies={favoriteMovies}/>}/>
+    </Routes>
+    {/* <MoviesIndex
         movies={movies}
         onShowMovie={handleShowMovie}
         onAddToFavorites={addToFavorites}
-      />
+      /> */}
+      
       <Modal show={isMoviesShowVisible} onClose={handleClose}>
         <MoviesShow movie={currentMovie} />
       </Modal>
-      <Login />
+      {/* <Login />
       <LogoutLink />
-      <Signup />
-      <UserFavoritesIndex
+      
+      <Signup /> */}
+      {/* <UserFavoritesIndex
   favs={favs}
   setFavs={setFavs}
   onDestroyFavorite={handleDestroyFavorite}
   favoriteMovies={favoriteMovies}
+  
 
 
-/>
-
+/> */}
 
     </div>
   );
